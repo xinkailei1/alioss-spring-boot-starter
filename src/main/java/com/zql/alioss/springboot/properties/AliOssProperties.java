@@ -12,6 +12,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties("alioss")
 public class AliOssProperties {
+    /**
+     * 是否启用
+     */
+    private boolean enable;
 
     /**
      * Endpoint以杭州为例，其它Region请按实际情况填写。

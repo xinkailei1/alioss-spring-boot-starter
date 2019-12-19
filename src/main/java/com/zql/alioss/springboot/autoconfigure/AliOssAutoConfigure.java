@@ -6,6 +6,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.zql.alioss.springboot.properties.AliOssProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,18 +19,19 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties(AliOssProperties.class)
+@ConditionalOnProperty(name = "alioss.enable", havingValue = "true")
 public class AliOssAutoConfigure {
 
     @Autowired
-    AliOssProperties alipayApiProperties;
+    AliOssProperties aliOssProperties;
 
     @Bean
     @ConditionalOnMissingBean(OSS.class)
-    public OSS alipayClient() {
-        String endpoint = alipayApiProperties.getEndpoint();
+    public OSS oss() {
+        String endpoint = aliOssProperties.getEndpoint();
         // 阿里云主账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建RAM账号。
-        String accessKeyId = alipayApiProperties.getAccessKeyId();
-        String accessKeySecret = alipayApiProperties.getAccessKeySecret();
+        String accessKeyId = aliOssProperties.getAccessKeyId();
+        String accessKeySecret = aliOssProperties.getAccessKeySecret();
 
 
         // 创建ClientConfiguration实例，按照您的需要修改默认参数。
